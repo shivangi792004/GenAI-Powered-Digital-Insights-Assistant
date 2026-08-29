@@ -1,0 +1,9 @@
+education,total_contacts,conversions,conversion_rate_pct,avg_duration_sec,volume_share_pct
+illiterate,18,4,22.22,276.8,0.04
+unknown,1731,251,14.5,262.4,4.2
+university.degree,12168,1670,13.72,253.2,29.54
+professional.course,5243,595,11.35,252.5,12.73
+high.school,9515,1031,10.84,260.9,23.1
+basic.4y,4176,428,10.25,264.8,10.14
+basic.6y,2292,188,8.2,264.4,5.56
+basic.9y,6045,473,7.82,261.3,14.68

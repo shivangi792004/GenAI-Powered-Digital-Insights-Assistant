@@ -1,0 +1,4 @@
+poutcome,total_contacts,conversions,conversion_rate_pct,avg_duration_sec,lift_vs_overall_cvr,cvr_ci_lower,cvr_ci_upper
+success,1373,894,65.11,320.9,5.78,62.59,67.63
+failure,4252,605,14.23,248.1,1.26,13.18,15.28
+nonexistent,35563,3141,8.83,257.1,0.78,8.54,9.13

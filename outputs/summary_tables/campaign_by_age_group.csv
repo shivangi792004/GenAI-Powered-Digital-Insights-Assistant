@@ -1,0 +1,6 @@
+age_group,total_contacts,conversions,conversion_rate_pct,avg_duration_sec,segment_share_pct,cvr_ci_lower,cvr_ci_upper
+<30 (Young Adult),5664,920,16.24,266.5,13.75,15.28,17.2
+30-39 (Early Career),16938,1715,10.13,256.3,41.12,9.67,10.58
+40-49 (Mid Career),10526,834,7.92,255.1,25.56,7.41,8.44
+50-59 (Pre-Retirement),6862,697,10.16,258.3,16.66,9.44,10.87
+60+ (Senior/Retiree),1193,472,39.56,274.2,2.9,36.79,42.34

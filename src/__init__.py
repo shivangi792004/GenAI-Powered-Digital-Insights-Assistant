@@ -1,0 +1,1 @@
+"""GenAI Insights Assistant Package"""

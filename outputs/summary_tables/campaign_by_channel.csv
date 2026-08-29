@@ -1,0 +1,3 @@
+contact_channel,total_contacts,conversions,conversion_rate_pct,avg_duration_sec,avg_campaign_calls,channel_share_pct,cvr_ci_lower,cvr_ci_upper,channel_cost_usd,revenue_generated_usd,cpa_usd,channel_roi_pct
+cellular,26144,3853,14.74,263.5,2.41,63.47,14.31,15.17,117648.0,462360.0,30.53,293.0
+telephone,15044,787,5.23,249.2,2.85,36.53,4.88,5.59,45132.0,94440.0,57.35,109.25

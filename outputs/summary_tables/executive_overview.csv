@@ -1,0 +1,2 @@
+total_campaign_contacts,total_conversions,overall_conversion_rate_pct,cvr_95_ci_lower,cvr_95_ci_upper,cvr_margin_of_error,cellular_outreach_pct,avg_call_duration_seconds,total_campaign_cost_usd,total_generated_revenue_usd,net_profit_usd,blended_cpa_usd,campaign_roi_pct,top_converting_job_segment,highest_cvr_month,lowest_cvr_month
+41188,4640,11.27,10.96,11.57,0.31,63.47,258.3,162780.0,556800.0,394020.0,35.08,242.06,student,mar,may

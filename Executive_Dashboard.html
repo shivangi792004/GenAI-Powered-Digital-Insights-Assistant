@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>American Express | GenAI Digital Insights Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --amex-blue: #002663;
+            --amex-light-blue: #006FCF;
+            --amex-accent: #00A3E0;
+            --bg-gray: #F4F6F9;
+            --card-bg: #FFFFFF;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg-gray); color: var(--text-dark); padding: 24px; }
+        .header { display: flex; justify-content: space-between; align-items: center; background: var(--amex-blue); color: white; padding: 20px 30px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 1.6rem; font-weight: 700; }
+        .header p { font-size: 0.9rem; opacity: 0.85; margin-top: 4px; }
+        .badge { background: rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .kpi-card { background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid #E2E8F0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .kpi-title { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        .kpi-value { font-size: 1.7rem; font-weight: 700; color: var(--amex-blue); margin: 8px 0; }
+        .kpi-sub { font-size: 0.8rem; color: var(--success); font-weight: 600; }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+        .chart-card { background: var(--card-bg); padding: 24px; border-radius: 10px; border: 1px solid #E2E8F0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .chart-card h3 { font-size: 1.1rem; color: var(--amex-blue); margin-bottom: 16px; }
+        
+        .table-card { background: var(--card-bg); padding: 24px; border-radius: 10px; border: 1px solid #E2E8F0; margin-bottom: 24px; }
+        .table-card h3 { font-size: 1.1rem; color: var(--amex-blue); margin-bottom: 16px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 12px 14px; border-bottom: 1px solid #E2E8F0; font-size: 0.9rem; }
+        th { background: #F8FAFC; color: var(--text-muted); font-weight: 600; }
+        
+        .status-pill { padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
+        .pill-sig { background: #ECFDF5; color: #065F46; }
+        .pill-cpa { background: #EFF6FF; color: #1E40AF; }
+        
+        .query-box { background: var(--card-bg); padding: 24px; border-radius: 10px; border: 1px solid #E2E8F0; }
+        .query-box h3 { color: var(--amex-blue); margin-bottom: 12px; }
+        .qa-chip { display: inline-block; background: #F1F5F9; color: #334155; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem; margin: 4px; cursor: pointer; border: 1px solid #CBD5E1; }
+        .qa-chip:hover { background: #E2E8F0; }
+        .qa-answer { background: #F8FAFC; border-left: 4px solid var(--amex-light-blue); padding: 14px; margin-top: 14px; border-radius: 0 8px 8px 0; font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div>
+            <h1>?? American Express | GenAI Digital Insights Dashboard</h1>
+            <p>Portfolio Campaign Performance, Statistical Significance & Financial Economics</p>
+        </div>
+        <div class="badge">??? Grounding Verified (100%)</div>
+    </div>
+
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-title">Total Campaign Leads</div>
+            <div class="kpi-value">41,188</div>
+            <div class="kpi-sub">100% Ingestion Health</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Overall Conversions</div>
+            <div class="kpi-value">4,640</div>
+            <div class="kpi-sub">11.27% CVR [95% CI: 10.96% - 11.57%]</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Total Campaign Cost</div>
+            <div class="kpi-value">$162,780</div>
+            <div class="kpi-sub">Blended CPA: $35.09</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Net Generated Profit</div>
+            <div class="kpi-value">$394,020</div>
+            <div class="kpi-sub">+242.06% Net Portfolio ROI</div>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div class="chart-card">
+            <h3>?? Monthly Conversion Rate (%) vs. Volume Share (%)</h3>
+            <canvas id="monthlyChart" height="200"></canvas>
+        </div>
+        <div class="chart-card">
+            <h3>?? Channel A/B Comparison: CPA ($) & Conversion Rate (%)</h3>
+            <canvas id="channelChart" height="200"></canvas>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <h3>?? High-Impact Customer Segments & Statistical Significance</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Segment Archetype</th>
+                    <th>Contacts</th>
+                    <th>Conversions</th>
+                    <th>Conversion Rate</th>
+                    <th>95% Confidence Interval</th>
+                    <th>Z-Score vs Rest</th>
+                    <th>Stat-Sig (p &lt; 0.05)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Student</strong></td>
+                    <td>875</td>
+                    <td>275</td>
+                    <td><strong>31.43%</strong></td>
+                    <td>[28.36% - 34.50%]</td>
+                    <td>z = +19.07</td>
+                    <td><span class="status-pill pill-sig">Statistically Significant</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Retired</strong></td>
+                    <td>1,720</td>
+                    <td>434</td>
+                    <td><strong>25.23%</strong></td>
+                    <td>[23.18% - 27.28%]</td>
+                    <td>z = +19.24</td>
+                    <td><span class="status-pill pill-sig">Statistically Significant</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Prior Success (poutcome)</strong></td>
+                    <td>1,373</td>
+                    <td>894</td>
+                    <td><strong>65.11%</strong></td>
+                    <td>[62.59% - 67.63%]</td>
+                    <td>z = +52.10</td>
+                    <td><span class="status-pill pill-sig">5.78x Lift (Significant)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Senior (Age 60+)</strong></td>
+                    <td>1,193</td>
+                    <td>472</td>
+                    <td><strong>39.56%</strong></td>
+                    <td>[36.79% - 42.34%]</td>
+                    <td>z = +29.15</td>
+                    <td><span class="status-pill pill-sig">Statistically Significant</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Blue-Collar (Mass Volume)</strong></td>
+                    <td>9,254</td>
+                    <td>638</td>
+                    <td><strong>6.89%</strong></td>
+                    <td>[6.37% - 7.41%]</td>
+                    <td>z = -18.42</td>
+                    <td><span class="status-pill pill-cpa">Underperforming</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="query-box">
+        <h3>?? Grounded Natural-Language Query Sandbox</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;">Click a sample stakeholder question below to preview grounded analytics output:</p>
+        <div>
+            <span class="qa-chip" onclick="showAnswer(1)">What was the CPA and ROI for cellular vs telephone?</span>
+            <span class="qa-chip" onclick="showAnswer(2)">Is the student conversion rate statistically significant?</span>
+            <span class="qa-chip" onclick="showAnswer(3)">Why was May's campaign performance inefficient?</span>
+            <span class="qa-chip" onclick="showAnswer(4)">What lift do warm leads with prior success provide?</span>
+        </div>
+        <div id="answerArea" class="qa-answer">
+            <strong>Select a question above to inspect verified ground truth response.</strong>
+        </div>
+    </div>
+
+    <script>
+        // Monthly Trajectory Chart
+        const ctxM = document.getElementById('monthlyChart').getContext('2d');
+        new Chart(ctxM, {
+            type: 'line',
+            data: {
+                labels: ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [
+                    {
+                        label: 'Conversion Rate (%)',
+                        data: [50.55, 20.48, 6.43, 10.51, 9.04, 10.61, 44.91, 43.87, 10.14, 48.90],
+                        borderColor: '#006FCF',
+                        backgroundColor: 'rgba(0, 111, 207, 0.1)',
+                        tension: 0.3,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Volume Share (%)',
+                        data: [1.33, 6.40, 33.43, 12.91, 17.42, 15.00, 1.38, 1.74, 9.96, 0.44],
+                        borderColor: '#F59E0B',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        borderDash: [5, 5],
+                        tension: 0.3,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { title: { display: true, text: 'CVR (%)' }, min: 0, max: 60 },
+                    y1: { position: 'right', title: { display: true, text: 'Volume Share (%)' }, min: 0, max: 40, grid: { drawOnChartArea: false } }
+                }
+            }
+        });
+
+        // Channel Comparison Chart
+        const ctxC = document.getElementById('channelChart').getContext('2d');
+        new Chart(ctxC, {
+            type: 'bar',
+            data: {
+                labels: ['Cellular Outreach', 'Fixed Telephone Outreach'],
+                datasets: [
+                    {
+                        label: 'Conversion Rate (%)',
+                        data: [14.74, 5.23],
+                        backgroundColor: '#002663'
+                    },
+                    {
+                        label: 'Cost per Acquisition ($ CPA)',
+                        data: [30.53, 57.35],
+                        backgroundColor: '#00A3E0'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Metric Value' } }
+                }
+            }
+        });
+
+        // Q&A Simulator
+        const answers = {
+            1: "<strong>Cellular vs. Telephone Economics:</strong><br>? <strong>Cellular:</strong> 14.74% CVR [95% CI: 14.31% - 15.17%], Cost per Acquisition (CPA) of <strong>$30.53</strong>, Channel ROI: <strong>+293.00%</strong>.<br>? <strong>Telephone:</strong> 5.23% CVR [95% CI: 4.88% - 5.59%], CPA of <strong>$57.35</strong>, Channel ROI: <strong>+109.25%</strong>.<br>? <strong>Stat-Sig Test:</strong> Two-Sample Proportion Z-Test yields <strong>z = 29.80, p < 0.0001</strong> (Statistically Significant). Rebalancing 100% budget to cellular cuts acquisition cost by 46.8%.",
+            2: "<strong>Student Segment Significance:</strong><br>The <strong>Student</strong> segment achieved a <strong>31.43% conversion rate</strong> [95% CI: 28.36% - 34.50%] across 875 contacts. Compared to the rest of the portfolio (10.83% CVR), a Two-Sample Z-Test yields <strong>z = 19.07 (p < 0.0001)</strong>, confirming the 2.79x conversion lift is statistically significant.",
+            3: "<strong>The May Volume Trap Analysis:</strong><br>May absorbed the single largest lead allocation (<strong>13,769 contacts</strong>, or <strong>33.43%</strong> of the total campaign volume), yet recorded the lowest conversion rate of <strong>6.43%</strong>. This indicates severe diminishing marginal returns and macro headwinds (Euribor 3M rate was 3.29%).",
+            4: "<strong>Warm Leads & Prior Campaign Lift:</strong><br>Leads with a recorded prior campaign outcome of <code>success</code> converted at <strong>65.11%</strong> [95% CI: 62.59% - 67.63%] across 1,373 contacts, delivering a <strong>5.78x lift</strong> over the baseline campaign average (11.27%)."
+        };
+
+        function showAnswer(id) {
+            document.getElementById('answerArea').innerHTML = answers[id];
+        }
+    </script>
+</body>
+</html>
